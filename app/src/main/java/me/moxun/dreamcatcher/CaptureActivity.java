@@ -1,5 +1,7 @@
 package me.moxun.dreamcatcher;
 
+import java.io.InputStream;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,18 +13,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
-
 import com.dd.morphingbutton.MorphingButton;
 import com.dd.morphingbutton.impl.IndeterminateProgressButton;
-
+import me.moxun.dreamcatcher.event.OperateEvent;
+import me.moxun.dreamcatcher.service.ProxyService;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.InputStream;
-
-import me.moxun.dreamcatcher.event.OperateEvent;
-import me.moxun.dreamcatcher.service.ProxyService;
 
 public class CaptureActivity extends AppCompatActivity {
 
@@ -45,8 +42,8 @@ public class CaptureActivity extends AppCompatActivity {
 
         EventBus.getDefault().register(this);
 
-        controlButton = (IndeterminateProgressButton) findViewById(R.id.controller);
-        status = (TextView) findViewById(R.id.status);
+        controlButton = (IndeterminateProgressButton)findViewById(R.id.controller);
+        status = (TextView)findViewById(R.id.status);
 
         morphToIdle(controlButton, 0);
 
@@ -119,52 +116,53 @@ public class CaptureActivity extends AppCompatActivity {
         int height = $px(8);
 
         button.blockTouch();
-        button.morphToProgress(color, progressCornerRadius, width, height, defaultDuration, progressColor1, progressColor2,
-                progressColor3, progressColor4);
+        button.morphToProgress(color, progressCornerRadius, width, height, defaultDuration, progressColor1,
+            progressColor2,
+            progressColor3, progressColor4);
     }
 
     private int $px(float dpValue) {
         final float scale = getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+        return (int)(dpValue * scale + 0.5f);
     }
 
     private void morphToSuccess(final IndeterminateProgressButton btnMorph, int duration) {
-        status.setText("Proxy on 127.0.0.1:" + ((DCApplication) getApplication()).getPort());
+        status.setText("Proxy on 127.0.0.1:" + ((DCApplication)getApplication()).getPort());
         btnMorph.unblockTouch();
         MorphingButton.Params circle = MorphingButton.Params.create()
-                .duration(duration)
-                .cornerRadius($px(size))
-                .width($px(size))
-                .height($px(size))
-                .color(Color.parseColor("#ff99cc00"))
-                .colorPressed(Color.parseColor("#ff6d9b00"))
-                .icon(R.mipmap.ic_check);
+            .duration(duration)
+            .cornerRadius($px(size))
+            .width($px(size))
+            .height($px(size))
+            .color(Color.parseColor("#ff99cc00"))
+            .colorPressed(Color.parseColor("#ff6d9b00"))
+            .icon(R.mipmap.ic_check);
         btnMorph.morph(circle);
     }
 
     private void morphToFailure(final IndeterminateProgressButton btnMorph, int duration) {
         btnMorph.unblockTouch();
         MorphingButton.Params circle = MorphingButton.Params.create()
-                .duration(duration)
-                .cornerRadius($px(size))
-                .width($px(size))
-                .height($px(size))
-                .color(Color.parseColor("#ffff4444"))
-                .colorPressed(Color.parseColor("#ffcd3a3a"))
-                .icon(R.mipmap.ic_closed);
+            .duration(duration)
+            .cornerRadius($px(size))
+            .width($px(size))
+            .height($px(size))
+            .color(Color.parseColor("#ffff4444"))
+            .colorPressed(Color.parseColor("#ffcd3a3a"))
+            .icon(R.mipmap.ic_closed);
         btnMorph.morph(circle);
     }
 
     private void morphToIdle(final IndeterminateProgressButton btnMorph, int duration) {
         btnMorph.unblockTouch();
         MorphingButton.Params circle = MorphingButton.Params.create()
-                .duration(duration)
-                .cornerRadius($px(size))
-                .width($px(size))
-                .height($px(size))
-                .color(Color.parseColor("#ff0099cc"))
-                .colorPressed(Color.parseColor("#ff00719b"))
-                .icon(R.mipmap.ic_start);
+            .duration(duration)
+            .cornerRadius($px(size))
+            .width($px(size))
+            .height($px(size))
+            .color(Color.parseColor("#ff0099cc"))
+            .colorPressed(Color.parseColor("#ff00719b"))
+            .icon(R.mipmap.ic_start);
         btnMorph.morph(circle);
     }
 
